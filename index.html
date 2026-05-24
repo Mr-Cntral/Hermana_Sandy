@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Registro de Catequistas</title>
+  <style>
+    :root {
+      --bg: #f4f7fb;
+      --card: #ffffff;
+      --primary: #2563eb;
+      --primary-dark: #1e40af;
+      --text: #172033;
+      --muted: #667085;
+      --border: #d9e2ef;
+      --danger: #dc2626;
+      --success: #16a34a;
+      --soft: #eef4ff;
+      --shadow: 0 18px 45px rgba(15, 23, 42, 0.08);
+      --radius: 18px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: linear-gradient(135deg, #eef4ff 0%, #f8fafc 45%, #eff6ff 100%);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    header {
+      padding: 28px 16px 18px;
+      text-align: center;
+      background: linear-gradient(135deg, #1d4ed8, #2563eb, #38bdf8);
+      color: white;
+      border-bottom-left-radius: 26px;
+      border-bottom-right-radius: 26px;
+      box-shadow: var(--shadow);
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 1.75rem;
+      line-height: 1.2;
+    }
+
+    header p {
+      margin: 8px auto 0;
+      max-width: 720px;
+      font-size: 0.98rem;
+      opacity: 0.94;
+    }
+
+    main {
+      width: min(1180px, 100%);
+      margin: 0 auto;
+      padding: 18px 14px 42px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 380px 1fr;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.94);
+      border: 1px solid rgba(217, 226, 239, 0.9);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 18px;
+      backdrop-filter: blur(10px);
+    }
+
+    .card h2 {
+      margin: 0 0 12px;
+      font-size: 1.1rem;
+    }
+
+    .form-group {
+      margin-bottom: 12px;
+    }
+
+    label {
+      display: block;
+      font-weight: 700;
+      font-size: 0.88rem;
+      margin-bottom: 6px;
+      color: #344054;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 11px 12px;
+      font-size: 0.96rem;
+      outline: none;
+      background: #fff;
+      color: var(--text);
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 70px;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+
+    button {
+      border: none;
+      border-radius: 12px;
+      padding: 11px 14px;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 0.92rem;
+      transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+    }
+
+    button:active {
+      transform: scale(0.98);
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+      box-shadow: 0 10px 20px rgba(37, 99, 235, 0.2);
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-dark);
+    }
+
+    .btn-secondary {
+      background: #eaf1ff;
+      color: #1e40af;
+    }
+
+    .btn-danger {
+      background: #fee2e2;
+      color: var(--danger);
+    }
+
+    .btn-success {
+      background: #dcfce7;
+      color: var(--success);
+    }
+
+    .toolbar {
+      display: grid;
+      grid-template-columns: 1fr auto auto auto;
+      gap: 10px;
+      margin-bottom: 14px;
+      align-items: center;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .stat {
+      background: var(--soft);
+      border: 1px solid #dbeafe;
+      border-radius: 16px;
+      padding: 14px;
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 1.5rem;
+      color: #1d4ed8;
+    }
+
+    .stat span {
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: white;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 900px;
+    }
+
+    th,
+    td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #edf2f7;
+      vertical-align: top;
+      font-size: 0.91rem;
+    }
+
+    th {
+      background: #f8fbff;
+      color: #344054;
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    tr:hover td {
+      background: #fbfdff;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 5px 9px;
+      border-radius: 999px;
+      background: #eef4ff;
+      color: #1d4ed8;
+      font-size: 0.8rem;
+      font-weight: 700;
+      margin: 2px 2px 2px 0;
+    }
+
+    .empty {
+      text-align: center;
+      padding: 28px 12px;
+      color: var(--muted);
+    }
+
+    .small {
+      color: var(--muted);
+      font-size: 0.82rem;
+      line-height: 1.45;
+      margin-top: 10px;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    @media (max-width: 900px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .toolbar {
+        grid-template-columns: 1fr;
+      }
+
+      .stats {
+        grid-template-columns: 1fr;
+      }
+
+      header h1 {
+        font-size: 1.45rem;
+      }
+
+      .row {
+        grid-template-columns: 1fr;
+      }
+
+      button {
+        width: 100%;
+      }
+    }
+
+    @media print {
+      body {
+        background: white;
+      }
+
+      header,
+      .form-card,
+      .toolbar,
+      .actions-print {
+        display: none !important;
+      }
+
+      main {
+        width: 100%;
+        padding: 0;
+      }
+
+      .card {
+        box-shadow: none;
+        border: none;
+      }
+
+      table {
+        min-width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Registro de Catequistas</h1>
+    <p>Control simple de catequistas, datos personales, cursos de formación, sectores y cursos llevados.</p>
+  </header>
+
+  <main>
+    <section class="grid">
+      <div class="card form-card">
+        <h2 id="formTitle">Agregar catequista</h2>
+        <form id="catequistaForm">
+          <input type="hidden" id="editId" />
+
+          <div class="form-group">
+            <label for="nombre">Nombre completo</label>
+            <input id="nombre" type="text" placeholder="Ejemplo: María López" required />
+          </div>
+
+          <div class="row">
+            <div class="form-group">
+              <label for="dni">DNI</label>
+              <input id="dni" type="text" inputmode="numeric" maxlength="12" placeholder="Opcional" />
+            </div>
+            <div class="form-group">
+              <label for="telefono">Teléfono</label>
+              <input id="telefono" type="tel" placeholder="Opcional" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="direccion">Dirección</label>
+            <input id="direccion" type="text" placeholder="Opcional" />
+          </div>
+
+          <div class="row">
+            <div class="form-group">
+              <label for="sector">Sector</label>
+              <input id="sector" type="text" placeholder="Ejemplo: Sector 1" />
+            </div>
+            <div class="form-group">
+              <label for="estado">Estado</label>
+              <select id="estado">
+                <option value="Activo">Activo</option>
+                <option value="En formación">En formación</option>
+                <option value="Inactivo">Inactivo</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="cursoFormacion">Curso de formación principal</label>
+            <input id="cursoFormacion" type="text" placeholder="Ejemplo: Formación básica de catequesis" />
+          </div>
+
+          <div class="form-group">
+            <label for="cursosLlevados">Cursos que llevó</label>
+            <textarea id="cursosLlevados" placeholder="Separar por comas. Ejemplo: Biblia, Liturgia, Sacramentos"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="observaciones">Observaciones</label>
+            <textarea id="observaciones" placeholder="Notas adicionales"></textarea>
+          </div>
+
+          <div class="actions">
+            <button class="btn-primary" type="submit">Guardar</button>
+            <button class="btn-secondary" type="button" id="limpiarBtn">Limpiar</button>
+          </div>
+
+          <p class="small">Los datos se guardan en este dispositivo usando almacenamiento local del navegador. Para llevar respaldo, usa el botón exportar.</p>
+        </form>
+      </div>
+
+      <div class="card">
+        <h2>Lista general</h2>
+
+        <div class="stats">
+          <div class="stat">
+            <strong id="totalCatequistas">0</strong>
+            <span>Total catequistas</span>
+          </div>
+          <div class="stat">
+            <strong id="totalActivos">0</strong>
+            <span>Activos</span>
+          </div>
+          <div class="stat">
+            <strong id="totalSectores">0</strong>
+            <span>Sectores registrados</span>
+          </div>
+        </div>
+
+        <div class="toolbar">
+          <input id="buscar" type="search" placeholder="Buscar por nombre, DNI, sector o curso" />
+          <button class="btn-success actions-print" type="button" id="exportarBtn">Exportar</button>
+          <button class="btn-secondary actions-print" type="button" id="importarBtn">Importar</button>
+          <button class="btn-secondary actions-print" type="button" onclick="window.print()">Imprimir</button>
+          <input class="hidden" id="archivoImportar" type="file" accept="application/json" />
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>DNI</th>
+                <th>Teléfono</th>
+                <th>Sector</th>
+                <th>Curso formación</th>
+                <th>Cursos llevados</th>
+                <th>Estado</th>
+                <th>Observaciones</th>
+                <th class="actions-print">Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="tablaBody"></tbody>
+          </table>
+          <div id="emptyState" class="empty">Todavía no hay catequistas registrados.</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const STORAGE_KEY = 'registro_catequistas_sandy_v1';
+
+    const form = document.getElementById('catequistaForm');
+    const editId = document.getElementById('editId');
+    const formTitle = document.getElementById('formTitle');
+    const tablaBody = document.getElementById('tablaBody');
+    const emptyState = document.getElementById('emptyState');
+    const buscar = document.getElementById('buscar');
+    const limpiarBtn = document.getElementById('limpiarBtn');
+    const exportarBtn = document.getElementById('exportarBtn');
+    const importarBtn = document.getElementById('importarBtn');
+    const archivoImportar = document.getElementById('archivoImportar');
+
+    const campos = {
+      nombre: document.getElementById('nombre'),
+      dni: document.getElementById('dni'),
+      telefono: document.getElementById('telefono'),
+      direccion: document.getElementById('direccion'),
+      sector: document.getElementById('sector'),
+      estado: document.getElementById('estado'),
+      cursoFormacion: document.getElementById('cursoFormacion'),
+      cursosLlevados: document.getElementById('cursosLlevados'),
+      observaciones: document.getElementById('observaciones')
+    };
+
+    let catequistas = cargarDatos();
+
+    function cargarDatos() {
+      try {
+        return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+      } catch (error) {
+        return [];
+      }
+    }
+
+    function guardarDatos() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(catequistas));
+    }
+
+    function limpiarFormulario() {
+      form.reset();
+      editId.value = '';
+      formTitle.textContent = 'Agregar catequista';
+      campos.estado.value = 'Activo';
+    }
+
+    function normalizar(texto) {
+      return String(texto || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    }
+
+    function obtenerCursosComoBadges(texto) {
+      const cursos = String(texto || '')
+        .split(',')
+        .map(item => item.trim())
+        .filter(Boolean);
+
+      if (!cursos.length) return '<span style="color:#667085">Sin cursos</span>';
+      return cursos.map(curso => `<span class="badge">${escapeHtml(curso)}</span>`).join('');
+    }
+
+    function escapeHtml(texto) {
+      return String(texto || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    function renderizar() {
+      const filtro = normalizar(buscar.value);
+      const registros = catequistas.filter(item => {
+        const contenido = [
+          item.nombre,
+          item.dni,
+          item.telefono,
+          item.direccion,
+          item.sector,
+          item.estado,
+          item.cursoFormacion,
+          item.cursosLlevados,
+          item.observaciones
+        ].join(' ');
+        return normalizar(contenido).includes(filtro);
+      });
+
+      tablaBody.innerHTML = '';
+      emptyState.style.display = registros.length ? 'none' : 'block';
+
+      registros.forEach(item => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td><strong>${escapeHtml(item.nombre)}</strong><br><span style="color:#667085">${escapeHtml(item.direccion)}</span></td>
+          <td>${escapeHtml(item.dni)}</td>
+          <td>${escapeHtml(item.telefono)}</td>
+          <td>${escapeHtml(item.sector)}</td>
+          <td>${escapeHtml(item.cursoFormacion)}</td>
+          <td>${obtenerCursosComoBadges(item.cursosLlevados)}</td>
+          <td><span class="badge">${escapeHtml(item.estado)}</span></td>
+          <td>${escapeHtml(item.observaciones)}</td>
+          <td class="actions-print">
+            <button class="btn-secondary" type="button" onclick="editarRegistro('${item.id}')">Editar</button>
+            <button class="btn-danger" type="button" onclick="eliminarRegistro('${item.id}')">Eliminar</button>
+          </td>
+        `;
+        tablaBody.appendChild(tr);
+      });
+
+      actualizarEstadisticas();
+    }
+
+    function actualizarEstadisticas() {
+      const activos = catequistas.filter(item => item.estado === 'Activo').length;
+      const sectores = new Set(catequistas.map(item => normalizar(item.sector)).filter(Boolean));
+
+      document.getElementById('totalCatequistas').textContent = catequistas.length;
+      document.getElementById('totalActivos').textContent = activos;
+      document.getElementById('totalSectores').textContent = sectores.size;
+    }
+
+    form.addEventListener('submit', event => {
+      event.preventDefault();
+
+      const registro = {
+        id: editId.value || crypto.randomUUID(),
+        nombre: campos.nombre.value.trim(),
+        dni: campos.dni.value.trim(),
+        telefono: campos.telefono.value.trim(),
+        direccion: campos.direccion.value.trim(),
+        sector: campos.sector.value.trim(),
+        estado: campos.estado.value,
+        cursoFormacion: campos.cursoFormacion.value.trim(),
+        cursosLlevados: campos.cursosLlevados.value.trim(),
+        observaciones: campos.observaciones.value.trim(),
+        actualizado: new Date().toISOString()
+      };
+
+      if (!registro.nombre) {
+        alert('Escribe el nombre completo.');
+        return;
+      }
+
+      if (editId.value) {
+        catequistas = catequistas.map(item => item.id === editId.value ? registro : item);
+      } else {
+        catequistas.push(registro);
+      }
+
+      guardarDatos();
+      limpiarFormulario();
+      renderizar();
+    });
+
+    limpiarBtn.addEventListener('click', limpiarFormulario);
+    buscar.addEventListener('input', renderizar);
+
+    window.editarRegistro = function(id) {
+      const item = catequistas.find(registro => registro.id === id);
+      if (!item) return;
+
+      editId.value = item.id;
+      campos.nombre.value = item.nombre || '';
+      campos.dni.value = item.dni || '';
+      campos.telefono.value = item.telefono || '';
+      campos.direccion.value = item.direccion || '';
+      campos.sector.value = item.sector || '';
+      campos.estado.value = item.estado || 'Activo';
+      campos.cursoFormacion.value = item.cursoFormacion || '';
+      campos.cursosLlevados.value = item.cursosLlevados || '';
+      campos.observaciones.value = item.observaciones || '';
+      formTitle.textContent = 'Editar catequista';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    window.eliminarRegistro = function(id) {
+      const item = catequistas.find(registro => registro.id === id);
+      if (!item) return;
+
+      const confirmar = confirm(`¿Eliminar el registro de ${item.nombre}?`);
+      if (!confirmar) return;
+
+      catequistas = catequistas.filter(registro => registro.id !== id);
+      guardarDatos();
+      renderizar();
+    };
+
+    exportarBtn.addEventListener('click', () => {
+      const data = JSON.stringify(catequistas, null, 2);
+      const blob = new Blob([data], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      const fecha = new Date().toISOString().slice(0, 10);
+      a.href = url;
+      a.download = `respaldo-catequistas-${fecha}.json`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    });
+
+    importarBtn.addEventListener('click', () => archivoImportar.click());
+
+    archivoImportar.addEventListener('change', event => {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = () => {
+        try {
+          const datos = JSON.parse(reader.result);
+          if (!Array.isArray(datos)) throw new Error('Formato inválido');
+
+          const confirmar = confirm('Esto reemplazará los datos actuales por el respaldo importado. ¿Continuar?');
+          if (!confirmar) return;
+
+          catequistas = datos;
+          guardarDatos();
+          limpiarFormulario();
+          renderizar();
+          alert('Datos importados correctamente.');
+        } catch (error) {
+          alert('No se pudo importar el archivo. Verifica que sea un respaldo JSON válido.');
+        }
+      };
+      reader.readAsText(file);
+      archivoImportar.value = '';
+    });
+
+    renderizar();
+  </script>
+</body>
+</html>
