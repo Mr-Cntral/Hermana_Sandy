@@ -1,677 +1,243 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Registro de Catequistas</title>
-  <style>
-    :root {
-      --bg: #f4f7fb;
-      --card: #ffffff;
-      --primary: #2563eb;
-      --primary-dark: #1e40af;
-      --text: #172033;
-      --muted: #667085;
-      --border: #d9e2ef;
-      --danger: #dc2626;
-      --success: #16a34a;
-      --soft: #eef4ff;
-      --shadow: 0 18px 45px rgba(15, 23, 42, 0.08);
-      --radius: 18px;
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      background: linear-gradient(135deg, #eef4ff 0%, #f8fafc 45%, #eff6ff 100%);
-      color: var(--text);
-      min-height: 100vh;
-    }
-
-    header {
-      padding: 28px 16px 18px;
-      text-align: center;
-      background: linear-gradient(135deg, #1d4ed8, #2563eb, #38bdf8);
-      color: white;
-      border-bottom-left-radius: 26px;
-      border-bottom-right-radius: 26px;
-      box-shadow: var(--shadow);
-    }
-
-    header h1 {
-      margin: 0;
-      font-size: 1.75rem;
-      line-height: 1.2;
-    }
-
-    header p {
-      margin: 8px auto 0;
-      max-width: 720px;
-      font-size: 0.98rem;
-      opacity: 0.94;
-    }
-
-    main {
-      width: min(1180px, 100%);
-      margin: 0 auto;
-      padding: 18px 14px 42px;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: 380px 1fr;
-      gap: 18px;
-      align-items: start;
-    }
-
-    .card {
-      background: rgba(255, 255, 255, 0.94);
-      border: 1px solid rgba(217, 226, 239, 0.9);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 18px;
-      backdrop-filter: blur(10px);
-    }
-
-    .card h2 {
-      margin: 0 0 12px;
-      font-size: 1.1rem;
-    }
-
-    .form-group {
-      margin-bottom: 12px;
-    }
-
-    label {
-      display: block;
-      font-weight: 700;
-      font-size: 0.88rem;
-      margin-bottom: 6px;
-      color: #344054;
-    }
-
-    input,
-    select,
-    textarea {
-      width: 100%;
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 11px 12px;
-      font-size: 0.96rem;
-      outline: none;
-      background: #fff;
-      color: var(--text);
-    }
-
-    input:focus,
-    select:focus,
-    textarea:focus {
-      border-color: var(--primary);
-      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
-    }
-
-    textarea {
-      resize: vertical;
-      min-height: 70px;
-    }
-
-    .row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-    }
-
-    .actions {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-top: 12px;
-    }
-
-    button {
-      border: none;
-      border-radius: 12px;
-      padding: 11px 14px;
-      font-weight: 700;
-      cursor: pointer;
-      font-size: 0.92rem;
-      transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
-    }
-
-    button:active {
-      transform: scale(0.98);
-    }
-
-    .btn-primary {
-      background: var(--primary);
-      color: white;
-      box-shadow: 0 10px 20px rgba(37, 99, 235, 0.2);
-    }
-
-    .btn-primary:hover {
-      background: var(--primary-dark);
-    }
-
-    .btn-secondary {
-      background: #eaf1ff;
-      color: #1e40af;
-    }
-
-    .btn-danger {
-      background: #fee2e2;
-      color: var(--danger);
-    }
-
-    .btn-success {
-      background: #dcfce7;
-      color: var(--success);
-    }
-
-    .toolbar {
-      display: grid;
-      grid-template-columns: 1fr auto auto auto;
-      gap: 10px;
-      margin-bottom: 14px;
-      align-items: center;
-    }
-
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-      margin-bottom: 14px;
-    }
-
-    .stat {
-      background: var(--soft);
-      border: 1px solid #dbeafe;
-      border-radius: 16px;
-      padding: 14px;
-    }
-
-    .stat strong {
-      display: block;
-      font-size: 1.5rem;
-      color: #1d4ed8;
-    }
-
-    .stat span {
-      color: var(--muted);
-      font-size: 0.85rem;
-    }
-
-    .table-wrap {
-      overflow-x: auto;
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      background: white;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      min-width: 900px;
-    }
-
-    th,
-    td {
-      padding: 12px;
-      text-align: left;
-      border-bottom: 1px solid #edf2f7;
-      vertical-align: top;
-      font-size: 0.91rem;
-    }
-
-    th {
-      background: #f8fbff;
-      color: #344054;
-      font-size: 0.82rem;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-    }
-
-    tr:hover td {
-      background: #fbfdff;
-    }
-
-    .badge {
-      display: inline-block;
-      padding: 5px 9px;
-      border-radius: 999px;
-      background: #eef4ff;
-      color: #1d4ed8;
-      font-size: 0.8rem;
-      font-weight: 700;
-      margin: 2px 2px 2px 0;
-    }
-
-    .empty {
-      text-align: center;
-      padding: 28px 12px;
-      color: var(--muted);
-    }
-
-    .small {
-      color: var(--muted);
-      font-size: 0.82rem;
-      line-height: 1.45;
-      margin-top: 10px;
-    }
-
-    .hidden {
-      display: none;
-    }
-
-    @media (max-width: 900px) {
-      .grid {
-        grid-template-columns: 1fr;
-      }
-
-      .toolbar {
-        grid-template-columns: 1fr;
-      }
-
-      .stats {
-        grid-template-columns: 1fr;
-      }
-
-      header h1 {
-        font-size: 1.45rem;
-      }
-
-      .row {
-        grid-template-columns: 1fr;
-      }
-
-      button {
-        width: 100%;
-      }
-    }
-
-    @media print {
-      body {
-        background: white;
-      }
-
-      header,
-      .form-card,
-      .toolbar,
-      .actions-print {
-        display: none !important;
-      }
-
-      main {
-        width: 100%;
-        padding: 0;
-      }
-
-      .card {
-        box-shadow: none;
-        border: none;
-      }
-
-      table {
-        min-width: 100%;
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <header>
-    <h1>Registro de Catequistas</h1>
-    <p>Control simple de catequistas, datos personales, cursos de formación, sectores y cursos llevados.</p>
-  </header>
+  <div class="app-shell">
+    <header class="app-header">
+      <div>
+        <p class="eyebrow">Parroquia / Catequesis</p>
+        <h1>Registro de Catequistas</h1>
+        <p class="subtitle">Sistema sencillo para registrar personas, cursos, sectores y periodos.</p>
+      </div>
+    </header>
 
-  <main>
-    <section class="grid">
-      <div class="card form-card">
-        <h2 id="formTitle">Agregar catequista</h2>
-        <form id="catequistaForm">
-          <input type="hidden" id="editId" />
+    <main>
+      <section id="vistaInicio" class="view active">
+        <div class="welcome-card">
+          <h2>¿Qué desea hacer?</h2>
+          <p>Toque una opción. Solo se abrirá lo necesario para no confundir.</p>
+        </div>
 
-          <div class="form-group">
-            <label for="nombre">Nombre completo</label>
-            <input id="nombre" type="text" placeholder="Ejemplo: María López" required />
+        <div class="menu-grid">
+          <button class="menu-btn primary" data-view="vistaRegistrar">
+            <span class="menu-icon">+</span>
+            <strong>Registrar catequista</strong>
+            <small>Agregar datos paso a paso</small>
+          </button>
+
+          <button class="menu-btn" data-view="vistaLista">
+            <span class="menu-icon">L</span>
+            <strong>Ver lista</strong>
+            <small>Buscar, ver ficha, editar o eliminar</small>
+          </button>
+
+          <button class="menu-btn" data-view="vistaPeriodo">
+            <span class="menu-icon">P</span>
+            <strong>Ver periodo</strong>
+            <small>Revisar por mes, año o fechas</small>
+          </button>
+
+          <button class="menu-btn" data-view="vistaEstadisticas">
+            <span class="menu-icon">E</span>
+            <strong>Estadísticas</strong>
+            <small>Resumen de sectores y cursos</small>
+          </button>
+
+          <button class="menu-btn" data-view="vistaRespaldo">
+            <span class="menu-icon">R</span>
+            <strong>Respaldo</strong>
+            <small>Exportar o importar datos</small>
+          </button>
+        </div>
+      </section>
+
+      <section id="vistaRegistrar" class="view">
+        <div class="view-head">
+          <button class="back-btn" data-view="vistaInicio">Volver</button>
+          <h2 id="formTitle">Registrar catequista</h2>
+        </div>
+
+        <div class="help-box">
+          Complete primero lo básico. Los campos opcionales pueden llenarse después desde Editar.
+        </div>
+
+        <form id="catequistaForm" class="card form-card">
+          <input type="hidden" id="editId">
+
+          <div class="stepper">
+            <button type="button" class="step-pill active" data-step="1">1 Datos</button>
+            <button type="button" class="step-pill" data-step="2">2 Cursos</button>
+            <button type="button" class="step-pill" data-step="3">3 Confirmar</button>
           </div>
 
-          <div class="row">
-            <div class="form-group">
-              <label for="dni">DNI</label>
-              <input id="dni" type="text" inputmode="numeric" maxlength="12" placeholder="Opcional" />
+          <div class="form-step active" data-step-panel="1">
+            <label>Nombre completo <span>obligatorio</span></label>
+            <input id="nombre" required placeholder="Ejemplo: Rosa Pérez">
+
+            <div class="two-cols">
+              <div>
+                <label>DNI</label>
+                <input id="dni" inputmode="numeric" placeholder="Opcional">
+              </div>
+              <div>
+                <label>Celular</label>
+                <input id="telefono" type="tel" placeholder="Opcional">
+              </div>
             </div>
-            <div class="form-group">
-              <label for="telefono">Teléfono</label>
-              <input id="telefono" type="tel" placeholder="Opcional" />
+
+            <label>Dirección o referencia</label>
+            <input id="direccion" placeholder="Opcional">
+
+            <div class="two-cols">
+              <div>
+                <label>Sector</label>
+                <input id="sector" placeholder="Ejemplo: Sector San José">
+              </div>
+              <div>
+                <label>Estado</label>
+                <select id="estado">
+                  <option>Activo</option>
+                  <option>En formación</option>
+                  <option>Inactivo</option>
+                </select>
+              </div>
+            </div>
+
+            <button type="button" class="btn primary full next-step" data-next="2">Continuar</button>
+          </div>
+
+          <div class="form-step" data-step-panel="2">
+            <label>Curso de formación principal</label>
+            <input id="cursoFormacion" placeholder="Ejemplo: Formación básica de catequesis">
+
+            <label>Cursos que llevó</label>
+            <textarea id="cursosLlevados" placeholder="Ejemplo: Biblia, Liturgia, Sacramentos"></textarea>
+
+            <label>Curso o sector asignado</label>
+            <input id="cursoSector" placeholder="Ejemplo: Primera comunión - Sector 2">
+
+            <div class="button-row">
+              <button type="button" class="btn light next-step" data-next="1">Atrás</button>
+              <button type="button" class="btn primary next-step" data-next="3">Continuar</button>
             </div>
           </div>
 
-          <div class="form-group">
-            <label for="direccion">Dirección</label>
-            <input id="direccion" type="text" placeholder="Opcional" />
-          </div>
+          <div class="form-step" data-step-panel="3">
+            <label>Fecha de registro</label>
+            <input id="fechaRegistro" type="date">
 
-          <div class="row">
-            <div class="form-group">
-              <label for="sector">Sector</label>
-              <input id="sector" type="text" placeholder="Ejemplo: Sector 1" />
+            <label>Observaciones</label>
+            <textarea id="observaciones" placeholder="Notas, asistencia, recomendaciones o pendientes"></textarea>
+
+            <div class="button-row">
+              <button type="button" class="btn light next-step" data-next="2">Atrás</button>
+              <button type="submit" class="btn success">Guardar</button>
             </div>
-            <div class="form-group">
-              <label for="estado">Estado</label>
-              <select id="estado">
-                <option value="Activo">Activo</option>
-                <option value="En formación">En formación</option>
-                <option value="Inactivo">Inactivo</option>
-              </select>
-            </div>
+            <button type="button" id="cancelEdit" class="btn danger full">Cancelar / limpiar</button>
           </div>
-
-          <div class="form-group">
-            <label for="cursoFormacion">Curso de formación principal</label>
-            <input id="cursoFormacion" type="text" placeholder="Ejemplo: Formación básica de catequesis" />
-          </div>
-
-          <div class="form-group">
-            <label for="cursosLlevados">Cursos que llevó</label>
-            <textarea id="cursosLlevados" placeholder="Separar por comas. Ejemplo: Biblia, Liturgia, Sacramentos"></textarea>
-          </div>
-
-          <div class="form-group">
-            <label for="observaciones">Observaciones</label>
-            <textarea id="observaciones" placeholder="Notas adicionales"></textarea>
-          </div>
-
-          <div class="actions">
-            <button class="btn-primary" type="submit">Guardar</button>
-            <button class="btn-secondary" type="button" id="limpiarBtn">Limpiar</button>
-          </div>
-
-          <p class="small">Los datos se guardan en este dispositivo usando almacenamiento local del navegador. Para llevar respaldo, usa el botón exportar.</p>
         </form>
-      </div>
+      </section>
 
-      <div class="card">
-        <h2>Lista general</h2>
+      <section id="vistaLista" class="view">
+        <div class="view-head">
+          <button class="back-btn" data-view="vistaInicio">Volver</button>
+          <h2>Lista de catequistas</h2>
+        </div>
 
-        <div class="stats">
-          <div class="stat">
-            <strong id="totalCatequistas">0</strong>
-            <span>Total catequistas</span>
+        <div class="search-card">
+          <input id="searchInput" type="search" placeholder="Buscar por nombre, sector, DNI o curso">
+          <button class="btn primary full" data-view="vistaRegistrar" id="newFromList">Agregar nuevo</button>
+        </div>
+
+        <div id="listContainer" class="list-container"></div>
+      </section>
+
+      <section id="vistaFicha" class="view">
+        <div class="view-head">
+          <button class="back-btn" data-view="vistaLista">Volver</button>
+          <h2>Ficha del catequista</h2>
+        </div>
+        <div id="detailContainer" class="detail-container"></div>
+      </section>
+
+      <section id="vistaPeriodo" class="view">
+        <div class="view-head">
+          <button class="back-btn" data-view="vistaInicio">Volver</button>
+          <h2>Ver por periodo</h2>
+        </div>
+
+        <div class="card">
+          <p class="muted">Seleccione fechas o use los botones rápidos.</p>
+          <div class="two-cols">
+            <div>
+              <label>Desde</label>
+              <input id="dateFrom" type="date">
+            </div>
+            <div>
+              <label>Hasta</label>
+              <input id="dateTo" type="date">
+            </div>
           </div>
-          <div class="stat">
-            <strong id="totalActivos">0</strong>
-            <span>Activos</span>
-          </div>
-          <div class="stat">
-            <strong id="totalSectores">0</strong>
-            <span>Sectores registrados</span>
+          <div class="button-row wrap">
+            <button class="btn light" id="btnThisMonth">Mes actual</button>
+            <button class="btn light" id="btnThisYear">Año actual</button>
+            <button class="btn primary" onclick="window.print()">Imprimir</button>
           </div>
         </div>
 
-        <div class="toolbar">
-          <input id="buscar" type="search" placeholder="Buscar por nombre, DNI, sector o curso" />
-          <button class="btn-success actions-print" type="button" id="exportarBtn">Exportar</button>
-          <button class="btn-secondary actions-print" type="button" id="importarBtn">Importar</button>
-          <button class="btn-secondary actions-print" type="button" onclick="window.print()">Imprimir</button>
-          <input class="hidden" id="archivoImportar" type="file" accept="application/json" />
+        <div id="periodContainer" class="list-container"></div>
+      </section>
+
+      <section id="vistaEstadisticas" class="view">
+        <div class="view-head">
+          <button class="back-btn" data-view="vistaInicio">Volver</button>
+          <h2>Estadísticas</h2>
         </div>
 
-        <div class="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>Nombre</th>
-                <th>DNI</th>
-                <th>Teléfono</th>
-                <th>Sector</th>
-                <th>Curso formación</th>
-                <th>Cursos llevados</th>
-                <th>Estado</th>
-                <th>Observaciones</th>
-                <th class="actions-print">Acciones</th>
-              </tr>
-            </thead>
-            <tbody id="tablaBody"></tbody>
-          </table>
-          <div id="emptyState" class="empty">Todavía no hay catequistas registrados.</div>
+        <div id="statsContainer"></div>
+      </section>
+
+      <section id="vistaRespaldo" class="view">
+        <div class="view-head">
+          <button class="back-btn" data-view="vistaInicio">Volver</button>
+          <h2>Respaldo</h2>
         </div>
-      </div>
-    </section>
-  </main>
 
-  <script>
-    const STORAGE_KEY = 'registro_catequistas_sandy_v1';
+        <div class="card">
+          <h3>Guardar copia de seguridad</h3>
+          <p class="muted">Use Exportar para guardar una copia. Esto es importante si cambia de celular o borra datos del navegador.</p>
+          <button id="exportBtn" class="btn success full">Exportar respaldo</button>
+        </div>
 
-    const form = document.getElementById('catequistaForm');
-    const editId = document.getElementById('editId');
-    const formTitle = document.getElementById('formTitle');
-    const tablaBody = document.getElementById('tablaBody');
-    const emptyState = document.getElementById('emptyState');
-    const buscar = document.getElementById('buscar');
-    const limpiarBtn = document.getElementById('limpiarBtn');
-    const exportarBtn = document.getElementById('exportarBtn');
-    const importarBtn = document.getElementById('importarBtn');
-    const archivoImportar = document.getElementById('archivoImportar');
+        <div class="card">
+          <h3>Recuperar respaldo</h3>
+          <p class="muted">Use Importar solo si tiene un archivo de respaldo anterior.</p>
+          <button id="importBtn" class="btn primary full">Importar respaldo</button>
+          <input id="importFile" type="file" accept="application/json" hidden>
+        </div>
 
-    const campos = {
-      nombre: document.getElementById('nombre'),
-      dni: document.getElementById('dni'),
-      telefono: document.getElementById('telefono'),
-      direccion: document.getElementById('direccion'),
-      sector: document.getElementById('sector'),
-      estado: document.getElementById('estado'),
-      cursoFormacion: document.getElementById('cursoFormacion'),
-      cursosLlevados: document.getElementById('cursosLlevados'),
-      observaciones: document.getElementById('observaciones')
-    };
+        <div class="card danger-zone">
+          <h3>Zona de cuidado</h3>
+          <p class="muted">Esto elimina todos los registros guardados en este dispositivo.</p>
+          <button id="clearAllBtn" class="btn danger full">Borrar todo</button>
+        </div>
+      </section>
+    </main>
 
-    let catequistas = cargarDatos();
+    <nav class="bottom-nav">
+      <button data-view="vistaInicio" class="active">Inicio</button>
+      <button data-view="vistaRegistrar">Registrar</button>
+      <button data-view="vistaLista">Lista</button>
+      <button data-view="vistaEstadisticas">Resumen</button>
+    </nav>
+  </div>
 
-    function cargarDatos() {
-      try {
-        return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
-      } catch (error) {
-        return [];
-      }
-    }
-
-    function guardarDatos() {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(catequistas));
-    }
-
-    function limpiarFormulario() {
-      form.reset();
-      editId.value = '';
-      formTitle.textContent = 'Agregar catequista';
-      campos.estado.value = 'Activo';
-    }
-
-    function normalizar(texto) {
-      return String(texto || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-    }
-
-    function obtenerCursosComoBadges(texto) {
-      const cursos = String(texto || '')
-        .split(',')
-        .map(item => item.trim())
-        .filter(Boolean);
-
-      if (!cursos.length) return '<span style="color:#667085">Sin cursos</span>';
-      return cursos.map(curso => `<span class="badge">${escapeHtml(curso)}</span>`).join('');
-    }
-
-    function escapeHtml(texto) {
-      return String(texto || '')
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#039;');
-    }
-
-    function renderizar() {
-      const filtro = normalizar(buscar.value);
-      const registros = catequistas.filter(item => {
-        const contenido = [
-          item.nombre,
-          item.dni,
-          item.telefono,
-          item.direccion,
-          item.sector,
-          item.estado,
-          item.cursoFormacion,
-          item.cursosLlevados,
-          item.observaciones
-        ].join(' ');
-        return normalizar(contenido).includes(filtro);
-      });
-
-      tablaBody.innerHTML = '';
-      emptyState.style.display = registros.length ? 'none' : 'block';
-
-      registros.forEach(item => {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-          <td><strong>${escapeHtml(item.nombre)}</strong><br><span style="color:#667085">${escapeHtml(item.direccion)}</span></td>
-          <td>${escapeHtml(item.dni)}</td>
-          <td>${escapeHtml(item.telefono)}</td>
-          <td>${escapeHtml(item.sector)}</td>
-          <td>${escapeHtml(item.cursoFormacion)}</td>
-          <td>${obtenerCursosComoBadges(item.cursosLlevados)}</td>
-          <td><span class="badge">${escapeHtml(item.estado)}</span></td>
-          <td>${escapeHtml(item.observaciones)}</td>
-          <td class="actions-print">
-            <button class="btn-secondary" type="button" onclick="editarRegistro('${item.id}')">Editar</button>
-            <button class="btn-danger" type="button" onclick="eliminarRegistro('${item.id}')">Eliminar</button>
-          </td>
-        `;
-        tablaBody.appendChild(tr);
-      });
-
-      actualizarEstadisticas();
-    }
-
-    function actualizarEstadisticas() {
-      const activos = catequistas.filter(item => item.estado === 'Activo').length;
-      const sectores = new Set(catequistas.map(item => normalizar(item.sector)).filter(Boolean));
-
-      document.getElementById('totalCatequistas').textContent = catequistas.length;
-      document.getElementById('totalActivos').textContent = activos;
-      document.getElementById('totalSectores').textContent = sectores.size;
-    }
-
-    form.addEventListener('submit', event => {
-      event.preventDefault();
-
-      const registro = {
-        id: editId.value || crypto.randomUUID(),
-        nombre: campos.nombre.value.trim(),
-        dni: campos.dni.value.trim(),
-        telefono: campos.telefono.value.trim(),
-        direccion: campos.direccion.value.trim(),
-        sector: campos.sector.value.trim(),
-        estado: campos.estado.value,
-        cursoFormacion: campos.cursoFormacion.value.trim(),
-        cursosLlevados: campos.cursosLlevados.value.trim(),
-        observaciones: campos.observaciones.value.trim(),
-        actualizado: new Date().toISOString()
-      };
-
-      if (!registro.nombre) {
-        alert('Escribe el nombre completo.');
-        return;
-      }
-
-      if (editId.value) {
-        catequistas = catequistas.map(item => item.id === editId.value ? registro : item);
-      } else {
-        catequistas.push(registro);
-      }
-
-      guardarDatos();
-      limpiarFormulario();
-      renderizar();
-    });
-
-    limpiarBtn.addEventListener('click', limpiarFormulario);
-    buscar.addEventListener('input', renderizar);
-
-    window.editarRegistro = function(id) {
-      const item = catequistas.find(registro => registro.id === id);
-      if (!item) return;
-
-      editId.value = item.id;
-      campos.nombre.value = item.nombre || '';
-      campos.dni.value = item.dni || '';
-      campos.telefono.value = item.telefono || '';
-      campos.direccion.value = item.direccion || '';
-      campos.sector.value = item.sector || '';
-      campos.estado.value = item.estado || 'Activo';
-      campos.cursoFormacion.value = item.cursoFormacion || '';
-      campos.cursosLlevados.value = item.cursosLlevados || '';
-      campos.observaciones.value = item.observaciones || '';
-      formTitle.textContent = 'Editar catequista';
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    };
-
-    window.eliminarRegistro = function(id) {
-      const item = catequistas.find(registro => registro.id === id);
-      if (!item) return;
-
-      const confirmar = confirm(`¿Eliminar el registro de ${item.nombre}?`);
-      if (!confirmar) return;
-
-      catequistas = catequistas.filter(registro => registro.id !== id);
-      guardarDatos();
-      renderizar();
-    };
-
-    exportarBtn.addEventListener('click', () => {
-      const data = JSON.stringify(catequistas, null, 2);
-      const blob = new Blob([data], { type: 'application/json' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      const fecha = new Date().toISOString().slice(0, 10);
-      a.href = url;
-      a.download = `respaldo-catequistas-${fecha}.json`;
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      URL.revokeObjectURL(url);
-    });
-
-    importarBtn.addEventListener('click', () => archivoImportar.click());
-
-    archivoImportar.addEventListener('change', event => {
-      const file = event.target.files[0];
-      if (!file) return;
-
-      const reader = new FileReader();
-      reader.onload = () => {
-        try {
-          const datos = JSON.parse(reader.result);
-          if (!Array.isArray(datos)) throw new Error('Formato inválido');
-
-          const confirmar = confirm('Esto reemplazará los datos actuales por el respaldo importado. ¿Continuar?');
-          if (!confirmar) return;
-
-          catequistas = datos;
-          guardarDatos();
-          limpiarFormulario();
-          renderizar();
-          alert('Datos importados correctamente.');
-        } catch (error) {
-          alert('No se pudo importar el archivo. Verifica que sea un respaldo JSON válido.');
-        }
-      };
-      reader.readAsText(file);
-      archivoImportar.value = '';
-    });
-
-    renderizar();
-  </script>
+  <div id="toast" class="toast"></div>
+  <script src="app.js"></script>
 </body>
 </html>
