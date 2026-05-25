@@ -1,0 +1,16 @@
+body::before {
+  opacity: .09 !important;
+  background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRZw7bSYJ0rpK1eppd2k22aHkHXDABikXHP8A%26s%3D10") !important;
+  background-repeat: no-repeat !important;
+  background-position: center 185px !important;
+  background-size: min(82vw, 460px) !important;
+  filter: grayscale(20%) sepia(18%) !important;
+}
+
+@media (max-width: 680px) {
+  body::before {
+    opacity: .075 !important;
+    background-position: center 190px !important;
+    background-size: 84vw !important;
+  }
+}
